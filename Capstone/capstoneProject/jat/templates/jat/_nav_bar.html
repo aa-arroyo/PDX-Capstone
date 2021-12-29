@@ -1,0 +1,13 @@
+<nav class="navbar  navbar-expand-sm navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home_page' %}">Home</a>
+        {% if request.user.is_anonymous %}
+            <a class="navbar-brand" href="{% url 'sign_up' %}">Signup</a>
+            <a class="navbar-brand" href="{% url 'log_in' %}">Login</a>
+        {% else %}
+            <a class="navbar-brand" href="{% url 'dashboard_page' %}">Dashboard</a>
+            <a class="navbar-brand" href="{% url 'log_out' %}">Logout</a>      
+        {% endif %}
+    </div>
+</nav>
+

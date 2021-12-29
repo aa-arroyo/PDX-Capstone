@@ -1,0 +1,154 @@
+{% extends 'jat/base.html' %}
+
+{% block title %}
+Home
+{% endblock title %}
+
+{% block content %}
+<div id="app">
+    <div>
+        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="{% url 'dashboard_page' %}">Applications</a>
+              <a class="navbar-brand" href="{% url 'charts' %}">Charts</a>
+              <form class="d-flex">
+                <input id="search-bar" class="form-control me-2" v-model="search" type="text" placeholder="Search by Job Title, Company Name, or Status" aria-label="Search">
+              </form>
+            </div>
+          </nav>
+    </div>
+    <div>
+        <h1 class="text-center display-1">Favorites</h1>
+    </div>
+    <table id="myTable">
+      <tr class="header">
+        <th style="width:25%;">Job Title</th>
+        <th style="width:25%;">Company Name</th>
+        <th style="width:25%;">Status</th>
+        <th style="width:25%;">Date Applied</th>
+        <th style="width:25%;">Favorite</th>
+      </tr>
+      <tr id="content-table" v-for="application in filteredApplications" v-bind:id="application.status" v-if="application.favorite === 'true'">
+        <td>[[ application.job_title ]]</td>
+        <td>[[ application.company_name ]]</td>
+        <td>[[ application.status ]]</td>
+        <td>[[ application.date_applied ]]</td>
+        <td v-if="application.favorite == 'true'"><button type="button" class="btn btn-light" v-on:click.prevent="favoriteToggle(application.id)">❤️</button></td>
+        <td v-else-if="application.favorite == true"><button type="button" class="btn btn-light" v-on:click.prevent="favoriteToggle(application.id)">🤍</button></td>
+        <td>
+          <!-- Button trigger modal -->
+         <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">
+           Edit
+         </button>
+        </td>
+      </tr>
+    </table>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade modal-dialog modal-dialog-scrollable modal-dialog modal-xl" data-bs-backdrop="static" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h1 class="text-center">[[ editApplication.job_title ]]</h1>
+
+            <form>
+
+            <div class="container-fluid">
+
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="job-title">Job Title:</label>
+                  <input v-model="editApplication.job_title" name="title" type="text" id="job-title">
+                </div>
+                <div class="col-md-3 ms-auto">
+                  <label for="company-name">Company Name:</label>
+                  <input v-model="editApplication.company_name" name="title" type="text" id="company-name">
+                </div>
+                <div class="col-md-3 ms-auto">
+                  <label for="date-applied">Date Applied:</label>
+                  <input v-model="editApplication.date_applied" name="title" type="date" id="date-applied">
+                </div>
+                <div class="col-md-3">
+                  <label for="status">Application Status:</label>
+                  <select id="status" v-model="editApplication.status">
+                    <option value="applied">Applied</option>
+                    <option value="not-selected">Not Selected</option>
+                    <option value="selected-for-interview">Selected for Interview</option>
+                    <option value="interviewed">Interviewed</option>
+                    <option value="offer">Offer</option>
+                    <option value="declined">Declined</option>
+                    <option value="ghosted">Ghosted</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="compensation-type">Compensation Type:</label>
+                  <select v-model="editApplication.compensation_type" id="compensation-type">
+                    <option value="salary">Salary</option>
+                    <option value="hourly">Hourly</option>
+                    <option value="commission">Commission</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label for="compensation-amount">Compensation Amount:</label>
+                  <input v-model="editApplication.compensation_amount" name="title" type="number" id="compensation-amount">
+                </div>
+                <div class="col-md-2">
+                  <label for="type-of-hire">Type of hire:</label>
+                  <select v-model="editApplication.type_of_hire" id="type-of-hire">
+                    <option value="part time">Part time</option>
+                    <option value="full time">Full time</option>
+                    <option value="contract">Contract</option>
+                    <option value="internship">Internship</option>
+                    <option value="apprenticeship">Apprenticeship</option>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <label for="shift">Type of Shift:</label>
+                  <select v-model="editApplication.shift" id="shift">
+                    <option value="day">Day</option>
+                    <option value="night">Night</option>
+                  </select>
+                </div>
+                <div class="col-sm-2">
+                  <label for="favorite">Make it a Favorite!</label>
+                  <select v-model="editApplication.favorite" id="favorite">
+                    <option value="true">❤️</option>
+                    <option value="false">🤍</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="row">
+                <br>
+                <br>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-9">
+                  <textarea v-model="editApplication.notes" name="body"cols="90" rows="10" placeholder="Enter your notes here"></textarea>
+                </div>
+              </div>
+            
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" v-on:click.prevent="updateApplication(editApplication.id)" data-bs-dismiss="modal">Update!</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  
+</div>
+{% endblock content %}
