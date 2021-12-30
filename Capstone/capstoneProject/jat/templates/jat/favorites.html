@@ -28,7 +28,7 @@ Home
         <th style="width:25%;">Date Applied</th>
         <th style="width:25%;">Favorite</th>
       </tr>
-      <tr id="content-table" v-for="application in filteredApplications" v-bind:id="application.status" v-if="application.favorite === 'true'">
+      <tr id="content-table" v-for="application in filteredApplications" v-bind:id="application.status" v-if="application.favorite === 'true'" data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">
         <td>[[ application.job_title ]]</td>
         <td>[[ application.company_name ]]</td>
         <td>[[ application.status ]]</td>
@@ -45,7 +45,7 @@ Home
     </table>
 
 
-
+    <!-- Edit Job Application Modal Form -->
     <!-- Modal -->
     <div class="modal fade modal-dialog modal-dialog-scrollable modal-dialog modal-xl" data-bs-backdrop="static" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl">
@@ -142,6 +142,7 @@ Home
 
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-danger" v-on:click.prevent="deleteApplication(editApplication.id)" data-bs-dismiss="modal">Delete</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" v-on:click.prevent="updateApplication(editApplication.id)" data-bs-dismiss="modal">Update!</button>
           </div>

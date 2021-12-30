@@ -4,8 +4,340 @@
 Home
 {% endblock title %}
 
+{% block style %}
+<script type="text/javascript">
+    let img = new Image(); 
+    img.src = "https://images.unsplash.com/photo-1604079628040-94301bb21b91?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2574&q=80"; // background image picture by: https://unsplash.com/@mymind
+</script>
+<style>
+    html, .home-page { 
+        background: url("https://images.unsplash.com/photo-1604079628040-94301bb21b91?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2574&q=80") no-repeat center center fixed; /* picture by: https://unsplash.com/@mymind */
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+    h1 {
+        background-image: linear-gradient(to bottom right,aqua,#ffe5b4, rgb(255, 138, 156));
+        text-align: center;
+        margin-top: 0;
+    }
+    h3 {
+        text-align: center;
+        background: transparent;
+    }
+    p {
+        text-align: center;
+        word-wrap: normal;
+    }
+
+    ul {
+        display: table;
+        margin: 0 auto;
+      }
+
+
+    * {
+        box-sizing:border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Slideshow container */
+    .slideshow-container {
+    max-width: 1000px;
+    position: relative;
+    margin: auto;
+    }
+
+    /* Hide the images by default */
+    .mySlides {
+    display: none;
+    }
+
+    /* Next & previous buttons */
+    .prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+    }
+
+    /* Caption text */
+    .text {
+    color: black;
+    font-size: 15px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 1px;
+    width: 100%;
+    text-align: center;
+    }
+
+    /* Number text (1/8 etc) */
+    .numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+    }
+
+    /* The dots/bullets/indicators */
+    .dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+    }
+
+    .active, .dot:hover {
+    background-color: #717171;
+    }
+
+    /* Fading animation */
+    .fade {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+    }
+
+    @-webkit-keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+    }
+
+    @keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+    }
+
+
+
+
+
+    /* social media nav bar */
+
+    .social-media {
+        position: absolute;
+        width: 0; /* THIS CHANGED FROM LIKE 60px to 0*/
+        margin-top: 150px;
+        margin-left: 0;
+        transition: all 0.3s linear;
+        box-shadow: 2px 2px 8px 0px rgba(0, 0, 0, .4);
+    }
+
+    .social-media ul {
+        margin-left: 0;
+        margin-top: 0;
+        margin-bottom: 0rem;
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .social-media li {
+        height: 45px;
+        position: relative;
+    }
+
+    .social-media li a {
+        color: #fff !important;
+        display: block;
+        height: 100%;
+        width: 100%;
+        line-height: 45px;
+        padding-left: 25%;
+        border-bottom: 1px solid rgba(0, 0, 0, .4);
+        transition: all .1s linear;
+    }
+
+    .social-media li:nth-child(1) a {
+        background: #4267B2
+    }
+
+    .social-media li:nth-child(2) a {
+        background: #1DA1F2
+    }
+
+    .social-media li:nth-child(3) a {
+        background: #E1306C
+    }
+
+    .social-media li:nth-child(4) a {
+        background: #2867B2
+    }
+
+    .social-media li:nth-child(5) a {
+        background: #333
+    }
+
+    .social-media li:nth-child(6) a {
+        background: #ff0000
+    }
+
+
+    .social-media li a {
+        position: absolute;
+        top: 14px;
+        left: 0;
+        width: 100%;
+        font-size: 15px;
+        padding-right: 2.5rem;
+    }
+
+    .social-media-ul li a span {
+        display: none;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-decoration: none;
+        list-style: none;
+    }
+
+    #social-media-a:hover {
+        z-index: 1;
+        width: 200px;
+        border-bottom: 1px solid rgba(0, 0, 0, .5);
+        box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3)
+    }
+
+    .social-media-ul li:hover a span {
+        padding-left: 30%;
+        display: block;
+        font-size: 15px
+    }
+
+
+</style>    
+{% endblock style %}
+
 {% block content %}
-<div id="app">
-    <h1>Welcome</h1>
+<div id="app" class="home-page">
+    <!-- Social Media Nav bar -->
+    <nav class="social-media">
+        <ul class="social-media-ul">
+            <li><a id="social-media-a" href="#" class="zocial facebook"><span>Facebook</span></a></li>
+            <li><a id="social-media-a" href="#" class="zocial twitter"><span>Twitter</span></a></li>
+            <li><a id="social-media-a" href="#" class="zocial instagram"><span>Instagram</span></a></li>
+            <li><a id="social-media-a" href="#" class="zocial linkedin"><span>Linkedin</span></a></li>
+            <li><a id="social-media-a" href="https://github.com/anjelandro" target="_blank" class="zocial github"><span>Github</span></a></li>
+            <li><a id="social-media-a" href="#" class="zocial youtube"><span>Youtube</span></a></li>
+        </ul>
+    </nav>
+
+    <h1>Job Application Tracker</h1>
+
+    <p>This application was made to help job seekers organize and keep track of all job applications with a very simple yet intuitive interface.</p>
+        
+    <p class="fw-bold">Some of the features you can enjoy are:</p> 
+        <ul>
+            <li>Create as many applications as needed</li>
+            <li>Delete applications</li>
+            <li>Color coded Job Application's status for better management</li>
+            <li>Search through your Job Applications by Job Title, Company Name, or Status</li>
+            <li>Favorite your most important applications and manage them from your own Favorites list</li>
+            <li>Visualize all of your application through a Pie or Bars chart!</li>
+            <li>Edit existing Job Applications</li>
+            <li>Add extensive notes like POC information or Job Posting links</li>
+        </ul>
+    <br>
+    <br>
+    <br>
+    <br>
+
+      <!-- Slideshow container -->
+    <div class="slideshow-container">
+
+        <!-- Full-width images with number and caption text -->
+        <div class="mySlides">
+        <div class="numbertext">1 / 8</div>
+        <img src="../../static/jat/images/job_applications.png" style="width:100%">
+        <div class="text fw-bold">Manage your job applications</div>
+        </div>
+    
+        <div class="mySlides">
+        <div class="numbertext">2 / 8</div>
+        <img src="../../static/jat/images/favorites.png" style="width:100%">
+        <div class="text fw-bold">Add your most important applications to your favorites</div>
+        </div>
+    
+        <div class="mySlides">
+        <div class="numbertext">3 / 8</div>
+        <img src="../../static/jat/images/edit_application.png" style="width:100%">
+        <div class="text fw-bold">Edit your applications</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">4 / 8</div>
+            <img src="../../static/jat/images/create_new_application.png" style="width:100%">
+            <div class="text fw-bold">Create new applications</div>
+        </div>
+    
+        <div class="mySlides">
+            <div class="numbertext">5 / 8</div>
+            <img src="../../static/jat/images/search_by_job_title.png" style="width:100%">
+            <div class="text fw-bold">Search applications by Job Title</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">6 / 8</div>
+            <img src="../../static/jat/images/search_by_status.png" style="width:100%">
+            <div class="text fw-bold">Search applications by Status</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">7 / 8</div>
+            <img src="../../static/jat/images/pie_chart.png" style="width:100%">
+            <div class="text fw-bold">View your data in a Pie Chart</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">8 / 8</div>
+            <img src="../../static/jat/images/bar_chart.png" style="width:100%">
+            <div class="text fw-bold">View your data in a Bar Chart</div>
+        </div>
+
+
+        <!-- Next and previous buttons -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    <br>
+    
+    <!-- The dots/circles -->
+    <div style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+        <span class="dot" onclick="currentSlide(4)"></span>
+        <span class="dot" onclick="currentSlide(5)"></span>
+        <span class="dot" onclick="currentSlide(6)"></span>
+        <span class="dot" onclick="currentSlide(7)"></span>
+        <span class="dot" onclick="currentSlide(8)"></span>
+    </div>
 </div>
 {% endblock content %}

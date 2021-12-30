@@ -7,6 +7,7 @@ Welcome {{ request.user }}!
 {% block content %}
 <div id="app">
     <div>
+        <!-- Nav bar for Dashboard -->
         <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
             <div class="container-fluid">
               <a class="navbar-brand" href="{% url 'favorites' %}">Favorites</a>
@@ -21,7 +22,7 @@ Welcome {{ request.user }}!
         <h1 class="text-center display-1">Job Applications</h1>
     </div>
 
-      
+      <!-- Table to display all applications -->
      <table id="myTable">
       <tr class="header">
         <th style="width:25%;">Job Title</th>
@@ -31,7 +32,8 @@ Welcome {{ request.user }}!
         <th style="width:25%;">Favorite</th> 
         <th style="width:25%;">Edit</th>       
       </tr>
-      <tr class="applications-rows" id="content-table" v-for="application in filteredApplications" v-bind:id="application.status">
+      <!-- Make every tr a 'button' to open editing modal -->
+      <tr class="applications-rows" id="content-table" v-for="application in filteredApplications" v-bind:id="application.status" data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">
         <td>[[ application.job_title ]]</td>
         <td>[[ application.company_name ]]</td>
         <td>[[ application.status ]]</td>
@@ -39,7 +41,7 @@ Welcome {{ request.user }}!
         <td v-if="application.favorite == 'true'"><button type="button" class="btn btn-light" v-on:click.prevent="favoriteToggle(application.id)">❤️</button></td>
         <td v-else-if="application.favorite == 'false'"><button type="button" class="btn btn-light" v-on:click.prevent="favoriteToggle(application.id)">🤍</button></td>
         <td>
-          <!-- Button trigger modal -->
+          <!-- Button trigger modal to open editing page -->
          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">
            Edit
          </button>
@@ -48,7 +50,7 @@ Welcome {{ request.user }}!
     </table>
 
 
-
+    <!-- Edit Job Application Modal Form -->
     <!-- Modal -->
     <div class="modal fade modal-dialog modal-dialog-scrollable modal-dialog modal-xl" data-bs-backdrop="static" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl">
@@ -145,6 +147,7 @@ Welcome {{ request.user }}!
 
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-danger" v-on:click.prevent="deleteApplication(editApplication.id)" data-bs-dismiss="modal">Delete</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" v-on:click.prevent="updateApplication(editApplication.id)" data-bs-dismiss="modal">Update!</button>
           </div>
@@ -154,7 +157,7 @@ Welcome {{ request.user }}!
     </div>
 
 
-
+    <!-- New Job Application Modal Form -->
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
       Add New Application!

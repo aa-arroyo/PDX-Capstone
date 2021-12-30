@@ -93,5 +93,5 @@ week 2 - front end
 week 3 - ensure smooth data sharing between Vue and Django with post/get requests + debugging
 
 
-Google charts
-https://developers.google.com/chart/interactive/docs/gallery
+Add limit on how many items are displayed at the time and add the options to display more OR pagination
+

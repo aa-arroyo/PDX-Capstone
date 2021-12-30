@@ -101,6 +101,32 @@ const app = new Vue ({
         },
         getApplicationId: function (applicationIdEdit){
             this.editApplication = applicationIdEdit
+        },
+        deleteApplication: function (applicationId) {
+            this.filteredApplications.forEach(application => {
+                if (application.id === applicationId) {
+                    const csrftoken = Cookies.get('csrftoken');
+                    axios({
+                        method: 'POST',
+                        url: '../delete_application/',
+                        headers: {'X-CSRFToken': csrftoken},
+                        data: {
+                            identifier: applicationId
+                        }
+                    }).then(response => {
+                        app.getApplications()
+                    })
+                }
+            }); 
+        },
+        chartToggle: function (typeOfChart) {
+            if (typeOfChart == 'pie') {
+                document.getElementById('pie-chart').className = 'visible';
+                document.getElementById('bar-chart').className = 'hidden';
+            } else {
+                document.getElementById('pie-chart').className = 'hidden';
+                document.getElementById('bar-chart').className = 'visible'; 
+            }
         }
         
     },

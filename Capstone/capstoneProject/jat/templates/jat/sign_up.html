@@ -4,21 +4,38 @@
 Home
 {% endblock title %}
 
+{% block style %}
+<script type="text/javascript">
+    let img = new Image(); 
+    img.src = "https://images.unsplash.com/photo-1640781966832-cf37029e0fac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"; // background image picture by: https://unsplash.com/@angelekamp
+</script>
+<style>
+    body {
+        background-image: url("https://images.unsplash.com/photo-1640781966832-cf37029e0fac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"); /* picture by: https://unsplash.com/@angelekamp */
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+</style>
+{% endblock style %}
+
 {% block content %}
-<div id="app">
+<div id="app" class="home-page">
     <h1>Sign Up</h1>
-    <form action="{% url 'sign_up' %}" method="POST">
+    <form action="{% url 'sign_up' %}" method="POST" class="form-style">
         {%  csrf_token %}
-        <div>
+        <div class="mb-3">
             <h3>Username:{{ form.username }}</h3>
         </div>
-        <div>
+        <div class="mb-3">
             <h3>Password:{{ form.password }}</h3>
         </div>
-        <div>
+        <div class="mb-3">
             <h3>Email address:{{ form.email }}</h3>
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
-        <input type="submit" value="Register">
+        <input type="submit" class="btn btn-dark" value="Register">
     </form>
 </div>
 {% endblock content %}

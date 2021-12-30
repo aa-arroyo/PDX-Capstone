@@ -9,54 +9,25 @@ Home
     <div>
         <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
             <div class="container-fluid">
-              <a id="navItemA" class="navbar-brand" href="{% url 'dashboard_page' %}">Applications</a>
-              <a id="navItemB" class="navbar-brand" href="{% url 'favorites' %}">Favorites</a>
+              <a class="navbar-brand" href="{% url 'dashboard_page' %}">Applications</a>
+              <a class="navbar-brand" href="{% url 'favorites' %}">Favorites</a>
+              <form class="d-flex">
+                <input disabled id="search-bar" class="form-control me-2" v-model="search" type="text" placeholder="Search by Job Title, Company Name, or Status" aria-label="Search">
+              </form>
             </div>
           </nav>
     </div>
     <div>
         <h1 class="text-center display-1">Charts</h1>
     </div>
-    <div id="applications" style="display: none;">
+    {% comment %} Buttons to display different type of charts {% endcomment %}
+    <div class="text-center">
+        <button type="button" class="btn btn-primary" v-on:click.prevent="chartToggle('pie')">Pie Chart</button>
+        <button type="button" class="btn btn-success" v-on:click.prevent="chartToggle('bar')">Bar Chart</button>
     </div>
-    <!--Div that will hold the pie chart-->
-    <div id="chart_div"></div>
-    <script>
-      // Load the Visualization API and the corechart package.
-      google.charts.load('current', {'packages':['corechart']});
+    {% comment %} <!--Divs that will hold the Job Status bar and pie chart--> {% endcomment %}
+    <div id="bar-chart" class="d-flex justify-content-center"></div>
+    <div id="pie-chart" class="d-flex justify-content-center"></div>
 
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawChart);
-
-
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawChart() {
-          // Create the data table.
-          var data = new google.visualization.DataTable();
-          data.addColumn('string', 'Topping');
-          data.addColumn('number', 'Slices');
-          data.addRows([
-              ['Mushrooms', 3],
-              ['Onions', 1],
-              ['Olives', 1],
-              ['Zucchini', 1],
-              ['Pepperoni', 2]
-          ]);
-
-
-
-
-          // Set chart options
-          var options = {'title':'How Much Pizza I Ate Last Night',
-                          'width':400,
-                          'height':300};
-
-          // Instantiate and draw our chart, passing in some options.
-          var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-          chart.draw(data, options);
-          }
-      </script>
 </div>
 {% endblock content %}

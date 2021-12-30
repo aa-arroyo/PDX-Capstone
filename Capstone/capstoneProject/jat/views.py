@@ -150,3 +150,9 @@ def update_application(request):
 
     return JsonResponse({'status': 'It worked!'})
 
+def delete_application(request):
+    data = json.loads(request.body)
+    if NewApplication.objects.filter(id=data['identifier'], user=request.user).exists():
+        application = NewApplication.objects.get(id=data['identifier'], user=request.user)
+        application.delete()
+    return JsonResponse({'status': 'It worked!'})

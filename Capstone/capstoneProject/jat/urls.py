@@ -12,5 +12,6 @@ urlpatterns = [
     path('applications/', views.get_applications, name='get_applications'),
     path('save_application/', views.save_application, name='save_application'),
     path('favorite_toggle/', views.favorite_toggle, name='favorite_toggle'),
-    path('update_application/', views.update_application, name='update_application')
+    path('update_application/', views.update_application, name='update_application'),
+    path('delete_application/', views.delete_application, name='delete_application'),
 ]
