@@ -33,11 +33,11 @@ Welcome {{ request.user }}!
         <th style="width:25%;">Edit</th>       
       </tr>
       <!-- Make every tr a 'button' to open editing modal -->
-      <tr class="applications-rows" id="content-table" v-for="application in filteredApplications" v-bind:id="application.status" data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">
-        <td>[[ application.job_title ]]</td>
-        <td>[[ application.company_name ]]</td>
-        <td>[[ application.status ]]</td>
-        <td>[[ application.date_applied ]]</td>
+      <tr class="applications-rows" id="content-table" v-for="application in filteredApplications" v-bind:id="application.status">
+        <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.job_title ]]</td>
+        <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.company_name ]]</td>
+        <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.status ]]</td>
+        <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.date_applied ]]</td>
         <td v-if="application.favorite == 'true'"><button type="button" class="btn btn-light" v-on:click.prevent="favoriteToggle(application.id)">❤️</button></td>
         <td v-else-if="application.favorite == 'false'"><button type="button" class="btn btn-light" v-on:click.prevent="favoriteToggle(application.id)">🤍</button></td>
         <td>
