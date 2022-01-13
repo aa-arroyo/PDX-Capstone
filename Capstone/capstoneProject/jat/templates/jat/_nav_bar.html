@@ -1,6 +1,7 @@
 <nav class="navbar  navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home_page' %}">Home</a>
+        {% comment %} conditionals to hide or show items depending if the user is loggged in or not {% endcomment %}
         {% if request.user.is_anonymous %}
             <a class="navbar-brand" href="{% url 'sign_up' %}">Signup</a>
             <a class="navbar-brand" href="{% url 'log_in' %}">Login</a>

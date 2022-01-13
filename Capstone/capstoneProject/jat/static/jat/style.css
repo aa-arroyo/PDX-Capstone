@@ -1,3 +1,4 @@
+/* status IDs colors */
 #not-selected {
     background-image: linear-gradient(red, #fc7471);
 }
@@ -26,6 +27,7 @@ background-image: linear-gradient(green, lightgreen);
     background-image: linear-gradient(darkgrey, grey);
 }
 
+/* search bar in dashboard/favorites/charts */
 #search-bar {
     width: 22.8rem;
 }

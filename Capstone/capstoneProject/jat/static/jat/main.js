@@ -1,6 +1,7 @@
+// start vue app
 const app = new Vue ({
     el: '#app',
-    delimiters: ['[[', ']]'],
+    delimiters: ['[[', ']]'], // {{}} won't work with django being used in HTML so need to provide a new character for Vue to use
     data: {
         editApplication: {},
         search: '',
@@ -15,6 +16,11 @@ const app = new Vue ({
         status: '',
         notes: '',
         favorite: '',
+        start: 0,
+        end: 5,
+        totalPages: [],
+        currentPage: 0,
+        activePage: 0,
     },
     methods: {
         submitApplication: function () {
@@ -55,6 +61,7 @@ const app = new Vue ({
                 url: '../applications/'
             }).then (function (response) {
                 app.applications = response.data.applications
+                app.totalPagesPagination()
             })
         },
         favoriteToggle: function (itemId) {
@@ -68,9 +75,11 @@ const app = new Vue ({
                         data: {
                             identifier: itemId
                         }
+                    }).then(response => {                        
+                        app.getApplications()  
                     })
                 }
-            }); app.getApplications()
+            })
         },
         updateApplication: function (itemId) {
             
@@ -127,8 +136,84 @@ const app = new Vue ({
                 document.getElementById('pie-chart').className = 'hidden';
                 document.getElementById('bar-chart').className = 'visible'; 
             }
+        },
+        totalPagesPagination: function () {
+            this.totalPages = []
+            let arrayLen = this.filteredApplications.length 
+            let pagesInt = Math.ceil(arrayLen / 5) 
+            for (let i=0; i<pagesInt; i++) {
+                this.totalPages.push(i)
+            }
+            if (this.totalPages.length == 1) {
+                document.getElementById('previous').className = 'hidden';
+                document.getElementById('next').className = 'hidden'; 
+            } else if (this.currentPage == 0 && this.totalPages.length > 1) {
+                document.getElementById('previous').className = 'hidden';
+                document.getElementById('next').className = 'page-item'; 
+            } else if (this.currentPage == this.totalPages.length - 1 && this.totalPages.length > 1) {
+                document.getElementById('previous').className = 'page-item';
+                document.getElementById('next').className = 'hidden';                 
+            } else {
+                document.getElementById('previous').className = 'page-item';
+                document.getElementById('next').className = 'page-item';                 
+            }
+            
+        },
+        pageDisplay: function (pageNumber) {
+            this.currentPage = pageNumber
+            if (pageNumber == 0) {
+                this.start = 0,
+                this.end = 5
+            } else {
+                this.start = 5 * pageNumber
+                this.end = this.start + 5
+            }
+            if (this.totalPages.length == 1 || this.totalPages.length == 0) {
+                document.getElementById('previous').className = 'hidden';
+                document.getElementById('next').className = 'hidden'; 
+            } else if (this.currentPage == 0 && this.totalPages.length > 1) {
+                document.getElementById('previous').className = 'hidden';
+                document.getElementById('next').className = 'page-item'; 
+            } else if (this.currentPage == this.totalPages.length - 1 && this.totalPages.length > 1) {
+                document.getElementById('previous').className = 'page-item';
+                document.getElementById('next').className = 'hidden';                 
+            } else {
+                document.getElementById('previous').className = 'page-item';
+                document.getElementById('next').className = 'page-item';                 
+            }
+
+            document.getElementById(this.currentPage).className = 'page-item active';
+
+            for (let i=0; i < this.totalPages.length; i++) {
+                if (i !== this.currentPage) {
+                    document.getElementById(i).className = 'page-item';
+                }
+            }
+
+        },
+        nextButton: function () {
+            this.pageDisplay(this.currentPage + 1)
+
+            document.getElementById(this.currentPage).className = 'page-item active';
+
+            for (let i=0; i < this.totalPages.length; i++) {
+                if (i !== this.currentPage) {
+                    document.getElementById(i).className = 'page-item';
+                }
+            }
+        },
+        previousButton: function () {
+            this.pageDisplay(this.currentPage - 1)
+
+            document.getElementById(this.currentPage).className = 'page-item active';
+
+            for (let i=0; i < this.totalPages.length; i++) {
+                if (i !== this.currentPage) {
+                    document.getElementById(i).className = 'page-item';
+                }
+            }
         }
-        
+    
     },
     created: function () {
         this.getApplications()

@@ -5,14 +5,15 @@ Home
 {% endblock title %}
 
 {% block content %}
-<div id="app">
+<div id="favoritesApp">
     <div>
+        <!-- Nav bar for dashboard page -->
         <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
             <div class="container-fluid">
               <a class="navbar-brand" href="{% url 'dashboard_page' %}">Applications</a>
               <a class="navbar-brand" href="{% url 'charts' %}">Charts</a>
               <form class="d-flex">
-                <input id="search-bar" class="form-control me-2" v-model="search" type="text" placeholder="Search by Job Title, Company Name, or Status" aria-label="Search">
+                <input id="search-bar" class="form-control me-2" v-model="search" type="text" placeholder="Search by Job Title, Company Name, or Status" aria-label="Search"  v-on:keyup="favoriteTotalPagesPagination">
               </form>
             </div>
           </nav>
@@ -28,13 +29,14 @@ Home
         <th style="width:25%;">Date Applied</th>
         <th style="width:25%;">Favorite</th>
       </tr>
-      <tr id="content-table" v-for="application in filteredApplications" v-bind:id="application.status" v-if="application.favorite === 'true'">
+      
+      <tr id="content-table" v-for="application in myFavorites.slice(favoriteStart, favoriteEnd)" v-bind:id="application.status">
         <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.job_title ]]</td>
         <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.company_name ]]</td>
         <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.status ]]</td>
         <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.date_applied ]]</td>
         <td v-if="application.favorite == 'true'"><button type="button" class="btn btn-light" v-on:click.prevent="favoriteToggle(application.id)">❤️</button></td>
-        <td v-else-if="application.favorite == true"><button type="button" class="btn btn-light" v-on:click.prevent="favoriteToggle(application.id)">🤍</button></td>
+        {% comment %} <td v-else-if="application.favorite == 'false'"><button type="button" class="btn btn-light" v-on:click.prevent="favoriteToggle(application.id)">🤍</button></td> {% endcomment %}
         <td>
           <!-- Button trigger modal -->
          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">
@@ -43,6 +45,18 @@ Home
         </td>
       </tr>
     </table>
+
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li id="favoritePrevious" class="page-item"><a id="favoritePrevious" class="page-link" href="#" v-on:click.prevent='favoritePreviousButton'>Previous</a></li>
+        <div v-for="page in favoriteTotalPages">
+          <li class="page-item" v-bind:id="page"><a class="page-link" href="#" v-on:click.prevent="favoritePageDisplay(page)">[[ page + 1 ]]</a></li>
+        </div>
+        <li id="favoriteNext" class="page-item"><a id="favoriteNext" class="page-link" href="#" v-on:click='favoriteNextButton'>Next</a></li>
+      </ul>
+    </nav>
 
 
     <!-- Edit Job Application Modal Form -->

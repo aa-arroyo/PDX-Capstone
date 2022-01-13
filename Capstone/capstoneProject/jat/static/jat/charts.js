@@ -9,6 +9,7 @@ let ghosted = 0;
 
 let applications = []
 
+// API request
 axios ({
     method: 'get',
     url: '../applications/'
@@ -76,6 +77,10 @@ function drawChart() {
     barchart.draw(data, barchart_options);
 }
 
+
+// Callback that creates and populates a data table,
+// instantiates the pie chart, passes in the data and
+// draws it.
 function draw3dChart() {
     let data = google.visualization.arrayToDataTable([
         ['Job Status', 'Number of Job Applications'],
@@ -88,6 +93,7 @@ function draw3dChart() {
         ['Ghosted', ghosted]
     ]);
 
+    // Set chart options
     let options = {
       title: 'Job Application Status \n Total Job Applications: ' + applications.length,
       'width':800,
@@ -96,6 +102,7 @@ function draw3dChart() {
       slices: {0: {color: 'aqua'}, 1:{color: 'red'}, 2:{color: 'blue'}, 3: {color: 'orange'}, 4:{color: 'green'}, 5:{color: 'darkgray'}, 6:{color: 'gray'}}
     };
 
+    // Instantiate and draw our chart, passing in some options.
     let chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
     chart.draw(data, options);
 }
