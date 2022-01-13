@@ -81,7 +81,7 @@ def log_out_page(request):
 
 @login_required(login_url='log_in')
 def get_applications(request):
-    applications = NewApplication.objects.all().filter(user=request.user).order_by('status')
+    applications = NewApplication.objects.all().filter(user=request.user).order_by('date_applied')
     data = []
     for application in applications:
         data.append({

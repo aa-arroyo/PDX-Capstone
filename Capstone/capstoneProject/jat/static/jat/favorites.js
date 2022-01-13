@@ -1,3 +1,4 @@
+// vue application for favorites page, see main.js for comments explaining all functions
 const favoritesApp = new Vue ({
     el: '#favoritesApp',
     delimiters: ['[[', ']]'],
@@ -64,6 +65,7 @@ const favoritesApp = new Vue ({
                 favoritesApp.favoriteTotalPagesPagination()
             })
         },
+        // function to favorite and unfavorite applications
         favoriteToggle: function (itemId) {
             this.filteredApplications.forEach(application => {
                 if (application.id === itemId) {
