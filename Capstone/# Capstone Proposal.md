@@ -92,26 +92,4 @@ week 1 - back end
 week 2 - front end
 week 3 - ensure smooth data sharing between Vue and Django with post/get requests + debugging
 
-
-
-
-
-
-Changed the v-for in dashboard and favorites to display only 5 items at the time and added v-on:keyup wih function to the search bar to display number of pages according to the number found in the search
-
-
-https://stackoverflow.com/questions/46622209/how-to-limit-iteration-of-elements-in-v-for
-
-
-fix the favorite list not updating maybe create an array for favorites within the fav toggle
-
-change the selected-for-interview and not-selected to same names without the -
-  change items in django
-  change targets in CSS
-  change items in HTML
-  check js files
-  use search function to find files that contain that name
-  might have to delete data base and start fresh to avoid errors
-
-
   
