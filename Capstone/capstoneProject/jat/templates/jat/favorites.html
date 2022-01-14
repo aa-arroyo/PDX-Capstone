@@ -6,6 +6,7 @@ Home
 
 {% block content %}
 <div id="favoritesApp">
+    {% comment %} Dashboard/Favorites/Charts nav bar {% endcomment %}
     <div>
         <!-- Nav bar for dashboard page -->
         <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
@@ -21,6 +22,8 @@ Home
     <div>
         <h1 class="text-center display-1">Favorites</h1>
     </div>
+
+    <!-- Table to display all applications -->
     <table id="myTable">
       <tr class="header">
         <th style="width:25%;">Job Title</th>
@@ -30,15 +33,15 @@ Home
         <th style="width:25%;">Favorite</th>
       </tr>
       
+      <!-- Make every tr a 'button' to open editing modal -->
       <tr id="content-table" v-for="application in myFavorites.slice(favoriteStart, favoriteEnd)" v-bind:id="application.status">
         <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.job_title ]]</td>
         <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.company_name ]]</td>
         <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.status ]]</td>
         <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.date_applied ]]</td>
         <td v-if="application.favorite == 'true'"><button type="button" class="btn btn-light" v-on:click.prevent="favoriteToggle(application.id)">❤️</button></td>
-        {% comment %} <td v-else-if="application.favorite == 'false'"><button type="button" class="btn btn-light" v-on:click.prevent="favoriteToggle(application.id)">🤍</button></td> {% endcomment %}
         <td>
-          <!-- Button trigger modal -->
+        <!-- Button trigger modal to open editing page -->
          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">
            Edit
          </button>

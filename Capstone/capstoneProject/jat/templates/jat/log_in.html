@@ -23,6 +23,7 @@ Home
 {% block content %}
 <div id="app">
     <h1>Log In</h1>
+    {% comment %} log in form {% endcomment %}
     <form action="{% url 'log_in' %}" method="POST" class="form-style">
         {% csrf_token %}
         <div class="mb-3">

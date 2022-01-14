@@ -6,7 +6,9 @@ Home
 
 {% block content %}
 <div id="app">
+  {% comment %} Dashboard/Favorites/Charts nav bar {% endcomment %}
     <div>
+        <!-- Nav bar for Dashboard -->
         <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
             <div class="container-fluid">
               <a class="navbar-brand" href="{% url 'dashboard_page' %}">Applications</a>
@@ -25,7 +27,7 @@ Home
         <button type="button" class="btn btn-primary" v-on:click.prevent="chartToggle('pie')">Pie Chart</button>
         <button type="button" class="btn btn-success" v-on:click.prevent="chartToggle('bar')">Bar Chart</button>
     </div>
-    {% comment %} <!--Divs that will hold the Job Status bar and pie chart--> {% endcomment %}
+    {% comment %} Divs that will hold the Job Status bar and pie chart {% endcomment %}
     <div id="bar-chart" class="d-flex justify-content-center"></div>
     <div id="pie-chart" class="d-flex justify-content-center"></div>
 

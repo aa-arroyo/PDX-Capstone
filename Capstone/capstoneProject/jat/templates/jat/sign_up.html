@@ -23,6 +23,7 @@ Home
 {% block content %}
 <div id="app" class="home-page">
     <h1>Sign Up</h1>
+    {% comment %} sign up form {% endcomment %}
     <form action="{% url 'sign_up' %}" method="POST" class="form-style">
         {%  csrf_token %}
         <div class="mb-3">
