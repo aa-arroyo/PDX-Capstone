@@ -21,6 +21,7 @@ const favoritesApp = new Vue ({
         favoriteCurrentPage: [],
         favoriteStart: 0,
         favoriteEnd: 0,
+        updateFormCompleted: true,
     },
     methods: {
         submitApplication: function () {
@@ -67,7 +68,7 @@ const favoritesApp = new Vue ({
         },
         // function to favorite and unfavorite applications
         favoriteToggle: function (itemId) {
-            this.filteredApplications.forEach(application => {
+            this.favoriteFilteredApplications.forEach(application => {
                 if (application.id === itemId) {
                     const csrftoken = Cookies.get('csrftoken');
                     axios({
@@ -83,6 +84,17 @@ const favoritesApp = new Vue ({
                 }
             })
         },
+
+        // function to evaluate all fields are filled before submitting updated application
+        evaluateFormFieldsUpdate: function () {
+            if (this.editApplication.job_title !== '' && this.editApplication.company_name !== '' && this.editApplication.date_applied !== '' && this.editApplication.compensation_type !== '' && this.editApplication.compensation_amount !== '' && this.editApplication.type_of_hire !== '' && this.editApplication.status !== '' && this.editApplication.shift !== '') {
+                this.updateFormCompleted = true
+            } else {
+                this.updateFormCompleted = false
+            }
+        },
+
+
         updateApplication: function (itemId) {
             
                     const csrftoken = Cookies.get('csrftoken');
@@ -120,7 +132,7 @@ const favoritesApp = new Vue ({
         },
         favoriteTotalPagesPagination: function () {
             this.favoriteTotalPages = []
-            let arrayLen = this.myFavorites.length 
+            let arrayLen = this.favoriteFilteredApplications.length 
             let pagesInt = Math.ceil(arrayLen / 5) 
             for (let i=0; i<pagesInt; i++) {
                 this.favoriteTotalPages.push(i)
@@ -148,7 +160,7 @@ const favoritesApp = new Vue ({
                 this.favoriteStart = 5 * pageNumber
                 this.favoriteEnd = this.favoriteStart + 5
             }
-            if (this.favoriteTotalPages.length == 1  && this.favoriteTotalPages.length == 0) {
+            if (this.favoriteTotalPages.length == 1  || this.favoriteTotalPages.length == 0) {
                 document.getElementById('favoritePrevious').className = 'hidden';
                 document.getElementById('favoriteNext').className = 'hidden'; 
             } else if (this.favoriteCurrentPage == 0 && this.favoriteTotalPages.length > 1) {
@@ -199,7 +211,7 @@ const favoritesApp = new Vue ({
             this.editApplication = applicationIdEdit
         },
         deleteApplication: function (applicationId) {
-            this.filteredApplications.forEach(application => {
+            this.favoriteFilteredApplications.forEach(application => {
                 if (application.id === applicationId) {
                     const csrftoken = Cookies.get('csrftoken');
                     axios({
@@ -220,9 +232,19 @@ const favoritesApp = new Vue ({
         this.getApplications()
         this.favoritePageDisplay(0)
     },
+
+    watch: {
+        editApplication: {
+            handler(){  
+              this.evaluateFormFieldsUpdate()
+            },
+            deep: true
+         }
+    },
+
     computed: {
-        filteredApplications: function () {
-            return this.applications.filter((application) => {
+        favoriteFilteredApplications: function () {
+            return this.myFavorites.filter((application) => {
                 return application.job_title.toUpperCase().match(this.search.toUpperCase()) || application.company_name.toUpperCase().match(this.search.toUpperCase()) || application.status.toUpperCase().match(this.search.toUpperCase());
             })
         }

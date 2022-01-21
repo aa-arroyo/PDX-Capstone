@@ -58,7 +58,7 @@ Welcome {{ request.user }}!
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            {% comment %} <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> {% endcomment %}
           </div>
           <div class="modal-body">
             <h1 class="text-center">[[ editApplication.job_title ]]</h1>
@@ -149,8 +149,10 @@ Welcome {{ request.user }}!
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" v-on:click.prevent="deleteApplication(editApplication.id)" data-bs-dismiss="modal">Delete</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" v-on:click.prevent="updateApplication(editApplication.id)" data-bs-dismiss="modal">Update!</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" disabled  v-if="updateFormCompleted === false">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-if="updateFormCompleted">Close</button>
+            <button type="button" class="btn btn-primary" v-on:click.prevent="updateApplication(editApplication.id)" data-bs-dismiss="modal" disabled  v-if="updateFormCompleted === false">Update!</button>
+            <button type="button" class="btn btn-primary" v-on:click.prevent="updateApplication(editApplication.id)" data-bs-dismiss="modal" v-if="updateFormCompleted">Update!</button>
           </div>
         </form>
         </div>
@@ -272,7 +274,9 @@ Welcome {{ request.user }}!
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" v-on:click.prevent="submitApplication" data-bs-dismiss="modal">Save!</button>
+            <!-- Add conditional to only enable submit button once all fields are filled -->
+            <button type="button" class="btn btn-primary" v-on:click.prevent="submitApplication" data-bs-dismiss="modal" disabled  v-if="formCompleted === false">Save!</button>
+            <button type="button" class="btn btn-primary" v-on:click.prevent="submitApplication" data-bs-dismiss="modal"  v-if="formCompleted">Save!</button>
           </div>
         </form>
         </div>

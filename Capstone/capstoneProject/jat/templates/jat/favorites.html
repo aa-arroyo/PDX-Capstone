@@ -34,7 +34,7 @@ Home
       </tr>
       
       <!-- Make every tr a 'button' to open editing modal -->
-      <tr id="content-table" v-for="application in myFavorites.slice(favoriteStart, favoriteEnd)" v-bind:id="application.status">
+      <tr id="content-table" v-for="application in favoriteFilteredApplications.slice(favoriteStart, favoriteEnd)" v-bind:id="application.status">
         <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.job_title ]]</td>
         <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.company_name ]]</td>
         <td data-bs-toggle="modal" data-bs-target="#edit" v-on:click.prevent="getApplicationId(application)">[[ application.status ]]</td>
@@ -69,7 +69,7 @@ Home
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            {% comment %} <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> {% endcomment %}
           </div>
           <div class="modal-body">
             <h1 class="text-center">[[ editApplication.job_title ]]</h1>
@@ -160,8 +160,10 @@ Home
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" v-on:click.prevent="deleteApplication(editApplication.id)" data-bs-dismiss="modal">Delete</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" v-on:click.prevent="updateApplication(editApplication.id)" data-bs-dismiss="modal">Update!</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" disabled  v-if="updateFormCompleted === false">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-if="updateFormCompleted">Close</button>
+            <button type="button" class="btn btn-primary" v-on:click.prevent="updateApplication(editApplication.id)" data-bs-dismiss="modal" disabled  v-if="updateFormCompleted === false">Update!</button>
+            <button type="button" class="btn btn-primary" v-on:click.prevent="updateApplication(editApplication.id)" data-bs-dismiss="modal" v-if="updateFormCompleted">Update!</button>
           </div>
         </form>
         </div>

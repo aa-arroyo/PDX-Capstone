@@ -13,16 +13,28 @@ const app = new Vue ({
         compensationAmount: '',
         typeOfHire: '',
         shift: '',
-        status: '',
+        status: 'applied',
         notes: '',
-        favorite: '',
+        favorite: 'false',
         start: 0,
         end: 5,
         totalPages: [],
         currentPage: 0,
         activePage: 0,
+        formCompleted: false,
+        updateFormCompleted: true,
     },
     methods: {
+        // function to evaluate all fields are filled before submitting new application
+        evaluateFormFields: function () {
+            if (this.jobTitle !== '' && this.companyName !== '' && this.dateApplied !== '' && this.compensationType !== '' && this.compensationAmount !== '' && this.typeOfHire !== '' && this.status !== '' && this.shift !== '') {
+                this.formCompleted = true
+            } else {
+                this.formCompleted = false
+            }
+        },
+
+
         // function to save new applications to our database by using POST request and using Django in our back end to assign values into their proper variables
         submitApplication: function () {
             const csrftoken = Cookies.get('csrftoken');
@@ -48,12 +60,13 @@ const app = new Vue ({
                 app.companyName = '',
                 app.dateApplied = '',
                 app.compensationType = '',
-                app.compensationAmount = 0,
+                app.compensationAmount = '',
                 app.typeOfHire = '',
                 app.shift = '',
                 app.status = '',
                 app.notes = '',
-                app.favorite= ''
+                app.favorite= '',
+                app.formCompleted= false
             })
         },
         // function to pull data from our backend using django generated API
@@ -86,6 +99,19 @@ const app = new Vue ({
                 }
             })
         },
+
+
+        // function to evaluate all fields are filled before submitting updated application
+        evaluateFormFieldsUpdate: function () {
+            if (this.editApplication.job_title !== '' && this.editApplication.company_name !== '' && this.editApplication.date_applied !== '' && this.editApplication.compensation_type !== '' && this.editApplication.compensation_amount !== '' && this.editApplication.type_of_hire !== '' && this.editApplication.status !== '' && this.editApplication.shift !== '') {
+                this.updateFormCompleted = true
+            } else {
+                this.updateFormCompleted = false
+            }
+        },
+
+
+
         // function to update existing applications using POST request by sending updated information by storing the updated information inside variable editApplication (object)
         // the way we get the application selected for editing into our new variable editApplication is by using v-on:click in our application table properties and calling function getApplicationId and passing the 'application' from our HTML file
         // we then access each item inside the object like editApplication.job_title
@@ -245,6 +271,40 @@ const app = new Vue ({
     created: function () {
         this.getApplications()
     },
+
+
+    // if the value changes in any of the variables under watch it will run the function to evaluate all fields
+    watch: {
+        jobTitle: function () {
+            this.evaluateFormFields()
+        },
+        companyName: function () {
+            this.evaluateFormFields()
+        },
+        dateApplied: function () {
+            this.evaluateFormFields()
+        },
+        compensationType: function () {
+            this.evaluateFormFields()
+        },
+        compensationAmount: function () {
+            this.evaluateFormFields()
+        },
+        typeOfHire: function () {
+            this.evaluateFormFields()
+        },
+        shift: function () {
+            this.evaluateFormFields()
+        },
+        editApplication: {
+            handler(){
+              this.evaluateFormFieldsUpdate()
+            },
+            deep: true
+         }
+    },
+
+
     // we use a computed function to create search bar functionality by using filter in our application variable array (holds all the applications (objects))
     // we return the items that will be used in our search like job title, company name, and status
     computed: {
